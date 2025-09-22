@@ -1,36 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-namespace Program;
-public class Lab1()
+
+public class Lab1
 {
-    public static void Main()
-    {
-        Console.WriteLine("Введите последовательность");
-        string s = Console.ReadLine()!;
-        Console.WriteLine("Что вы хотите сделать со строкой?\n" +
-            " 1: Закодировать\n" +
-            " 2: Декодировать ");
-        byte a = byte.Parse(Console.ReadLine());
-        if (a == 2)
-        {
-            string decodedSequence = RLDecoding(s);
-            Console.WriteLine($"Раскодированная последовательность: {decodedSequence}");
-        }
-        else if (a == 1)
-        {
-            string encodedSequence = RLEncoding(s);
-            Console.WriteLine($"Закодированная последовательность: {encodedSequence}");
-
-        }
-        else
-        {
-            Console.WriteLine("Неправильный ввод!");
-        }
-    }
-
     public static string RLEncoding(string s)
     {
         StringBuilder sb = new();
@@ -73,7 +48,33 @@ public class Lab1()
         }
         return sb.ToString();
     }
+    public static void Main()
+    {
+
+        string seqFile = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\sequences.txt";
+        string cmdFile = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\commands.txt";
+        string outFile = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\genedata.txt";
+
+
+        string[] sequences = File.ReadAllLines(seqFile);
+        string[] commands = File.ReadAllLines(cmdFile);
+
+        var proteins = new List<(string Protein, string Organism, string Acids)>();
+        foreach (string line in sequences)
+        {
+            string[] parts = line.Split('\t');
+            if (parts.Length >= 3)
+            {
+                proteins.Add((parts[0], parts[1], parts[2]));
+            }
+        }
+
+        var sb = new StringBuilder();
+        sb.AppendLine("Vlad Shmigero\nGenetic Searching");
+        sb.AppendLine("--------------------------------------------------------------------------");
+
+        File.WriteAllText(outFile, sb.ToString());
+        Console.WriteLine("Готово! Результат в genedata.txt");
+    }
 
 }
-
-
