@@ -83,6 +83,8 @@ public class Lab1
         var sb = new StringBuilder();
         if (isEncoded(sub))
         {
+            sub = RLDecoding(sub);
+        }
             sb.AppendLine(sub + " ");
             sb.AppendLine("organism\t\t\tprotein");
 
@@ -93,12 +95,12 @@ public class Lab1
                 sb.AppendLine(found.organism + "\t\t" + found.protein);
 
             return sb.ToString();
-        }
-        else
-        {
-            return sb.ToString(); ;
-        }
-       
+      
+    }
+
+    public static Mode(List<GeneticData> amino_acids)
+    {
+
     }
 
     public static void Main()
