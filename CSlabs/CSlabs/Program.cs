@@ -175,7 +175,16 @@ public class Lab1
         sb.AppendLine(best + "          " + maxCount);
         return sb.ToString();
     }
-
+     
+public static void test ()
+    {
+        var count = new Dictionary<int, string>();
+        String[] mas = { "AA", "BB", "CC", "DD", "EE", "FF" };
+        for(int i = 0; i < 5;  i++)
+        {
+            count[i] = mas[i];
+        }
+    }
     public static void Main()
     {
         string seqFile = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\sequences.txt";
