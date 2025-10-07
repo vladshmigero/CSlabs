@@ -114,8 +114,9 @@ public class Lab1
             return sb.ToString();
         }
 
-        string seq1 = found1.amino_acids;
-        string seq2 = found2.amino_acids;
+        string seq1 = isEncoded(found1.amino_acids) ? RLDecoding(found1.amino_acids) : found1.amino_acids;
+        string seq2 = isEncoded(found2.amino_acids) ? RLDecoding(found2.amino_acids) : found2.amino_acids;
+         
 
         int minLen = Math.Min(seq1.Length, seq2.Length);
         int diffCount = 0;
