@@ -260,9 +260,33 @@ public class Lab1
     {
         var count = new Dictionary<int, string>();
         String[] mas = { "AA", "BB", "CC", "DD", "EE", "FF" };
-        for (int i = 0; i < 5; i++)
+        int i = 0;
+        //    while (i < mas.Length)
+        //    {
+        //        count[i] = mas[i];
+        //        i++;
+        //    }
+        //do
+        //{
+        //    count[i] = mas[i];
+        //    i++;
+        //}
+        //while (i <= 6);
+        string test = "Hello my world!";
+        int count1 = 0;
+        int count2 = 1;
+        string res = "Индексы строки с символом l: ";
+        foreach (char c in test)
         {
-            count[i] = mas[i];
+
+            if (c == 'l')
+            {
+                count1++;
+                res += count2.ToString();
+                res += " ";
+            }
+            count2++;
         }
+        Console.WriteLine(res);
     }
 }
