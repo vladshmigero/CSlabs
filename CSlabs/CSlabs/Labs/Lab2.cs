@@ -8,5 +8,12 @@ namespace CSlabs.Labs
 {
     public class Lab2
     {
+        public enum PlayerState
+        {
+            NotInGame,
+            Playing,
+            Winner,
+            Loser
+        }
     }
 }

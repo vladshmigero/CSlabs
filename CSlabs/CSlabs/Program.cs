@@ -1,3 +1,3 @@
 ﻿using CSlabs.Labs;
 
-var l = new Lab1();
+var l = new Lab2();
