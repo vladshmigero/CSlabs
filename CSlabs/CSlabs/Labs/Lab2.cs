@@ -98,7 +98,7 @@ namespace CSlabs.Labs
                 int firstLineIndex = 0;
                 while (firstLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[firstLineIndex]))
                     firstLineIndex++;
-
+    
                 for (int i = firstLineIndex + 1; i < lines.Length && !gameEnded; i++)
                 {
                     string raw = lines[i];
@@ -113,10 +113,40 @@ namespace CSlabs.Labs
 
                     switch (char.ToUpper(command))
                     {
+                        case 'M':
+                            if (parts.Length > 1 && int.TryParse(parts[1], out int mValue))
+                            {
+                                if (mouse.State == PlayerState.NotInGame)
+                                {
+                                    mouse.SetPosition(mValue);
+                                }
+                                else
+                                {
+                                    mouse.Move(mValue, fieldSize);
+
+                                }
+                                CheckGameEnd();
+                            }
+                            break;
+
+                        case 'C':
+                            if (parts.Length > 1 && int.TryParse(parts[1], out int cValue))
+                            {
+                                if (cat.State == PlayerState.NotInGame)
+                                    cat.SetPosition(cValue);
+                                else
+                                    cat.Move(cValue, fieldSize);
+
+                                CheckGameEnd();
+                            }
+                            break;
+                        case 'P':
+                            break;
 
                     }
 
                 }
+                SaveToFile(outputFile);
             }
             private void CheckGameEnd()
             {
@@ -131,6 +161,27 @@ namespace CSlabs.Labs
                         gameEnded = true;
                     }
                 }
+            }
+            private void AddPrintOutput()
+            {
+                int distance = 0;
+
+                if (cat.State != PlayerState.NotInGame && mouse.State != PlayerState.NotInGame)
+                {
+                    int diff = Math.Abs(cat.Position - mouse.Position);
+
+                    if (diff > fieldSize / 2)
+                        distance = fieldSize - diff;
+                    else
+                        distance = diff;
+                }
+
+                string distanceStr = "";
+                if (cat.State != PlayerState.NotInGame && mouse.State != PlayerState.NotInGame)
+                    distanceStr = distance.ToString();
+
+                string line = cat.GetPositionString() + "   " + mouse.GetPositionString() + "   " + distanceStr;
+                printOutputs.Add(line);
             }
             private void SaveToFile(string filename)
             {
