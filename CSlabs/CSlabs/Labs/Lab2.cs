@@ -91,7 +91,28 @@ namespace CSlabs.Labs
                 gameEnded = false;
                 mouseCaught = false;
             }
+            
+            public void RunFromFile(string inputFile,string outputFile)
+            {
+                string[] lines = File.ReadAllLines(inputFile);
+                int firstLineIndex = 0;
 
+
+            }
+            private void CheckGameEnd()
+            {
+                if (cat.State == PlayerState.Playing && mouse.State == PlayerState.Playing)
+                {
+                    if (cat.Position == mouse.Position)
+                    {
+                        mouseCaught = true;
+                        caughtPosition = cat.Position;
+                        cat.SetState(PlayerState.Winner);
+                        mouse.SetState(PlayerState.Loser);
+                        gameEnded = true;
+                    }
+                }
+            }
         }
     }
 }
