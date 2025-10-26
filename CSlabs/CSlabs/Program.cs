@@ -1,4 +1,4 @@
-﻿using static CSlabs.Labs.Lab2;
+﻿using CSlabs.Labs;
 
 class Program2
 {
@@ -13,7 +13,8 @@ class Program2
         string outputFile = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\PursuitLog.txt";
         try
         {
-            Game game = new Game();
+            var game = new Lab2.Game(); 
+            game.RunFromFile(inputFile, outputFile);
             Console.WriteLine($"Готово! Результат в {outputFile}");
         }
         catch(Exception ex)

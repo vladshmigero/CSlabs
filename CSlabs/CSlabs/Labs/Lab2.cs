@@ -91,13 +91,32 @@ namespace CSlabs.Labs
                 gameEnded = false;
                 mouseCaught = false;
             }
-            
-            public void RunFromFile(string inputFile,string outputFile)
+
+            public void RunFromFile(string inputFile, string outputFile)
             {
                 string[] lines = File.ReadAllLines(inputFile);
                 int firstLineIndex = 0;
+                while (firstLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[firstLineIndex]))
+                    firstLineIndex++;
 
+                for (int i = firstLineIndex + 1; i < lines.Length && !gameEnded; i++)
+                {
+                    string raw = lines[i];
+                    if (string.IsNullOrWhiteSpace(raw))
+                        continue;
+                    string line = raw.Trim();
+                    string[] parts = line.Split(' ', '\t');
+                    if (parts.Length == 0)
+                        continue;
 
+                    char command = parts[0][0];
+
+                    switch (char.ToUpper(command))
+                    {
+
+                    }
+
+                }
             }
             private void CheckGameEnd()
             {
@@ -112,6 +131,36 @@ namespace CSlabs.Labs
                         gameEnded = true;
                     }
                 }
+            }
+            private void SaveToFile(string filename)
+            {
+                var sb = new System.Text.StringBuilder();
+
+                sb.AppendLine("Cat and Mouse");
+                sb.AppendLine();
+                sb.AppendLine("Cat Mouse  Distance");
+                sb.AppendLine("-------------------");
+
+                foreach (string output in printOutputs)
+                    sb.AppendLine(output);
+
+                sb.AppendLine("-------------------");
+                sb.AppendLine();
+                sb.AppendLine();
+                sb.AppendLine("Distance traveled:   Mouse    Cat");
+                sb.AppendLine($"                        {mouse.TotalDistance,2}      {cat.TotalDistance,2}");
+                sb.AppendLine();
+
+                if (mouseCaught) 
+                {
+                    sb.AppendLine($"Mouse caught at: {caughtPosition,2}");
+                }
+                else
+                {
+                    sb.AppendLine("Mouse evaded Cat");
+                }
+
+                File.WriteAllText(filename, sb.ToString());
             }
         }
     }
