@@ -98,14 +98,17 @@ namespace CSlabs.Labs
                 int firstLineIndex = 0;
                 while (firstLineIndex < lines.Length && string.IsNullOrWhiteSpace(lines[firstLineIndex]))
                     firstLineIndex++;
-    
+
+                if (!int.TryParse(lines[firstLineIndex].Trim(), out fieldSize) || fieldSize <= 0)
+                    throw new InvalidDataException("Invalid field size in input file.");
+
                 for (int i = firstLineIndex + 1; i < lines.Length && !gameEnded; i++)
                 {
                     string raw = lines[i];
                     if (string.IsNullOrWhiteSpace(raw))
                         continue;
                     string line = raw.Trim();
-                    string[] parts = line.Split(' ', '\t');
+                    string[] parts = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                     if (parts.Length == 0)
                         continue;
 
@@ -141,8 +144,12 @@ namespace CSlabs.Labs
                             }
                             break;
                         case 'P':
+                            if (!gameEnded)
+                                AddPrintOutput();
                             break;
 
+                        default:
+                            break;
                     }
 
                 }
