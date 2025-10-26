@@ -72,5 +72,26 @@ namespace CSlabs.Labs
                 return position.ToString();
             }
         }
+
+        public class Game
+        {
+            private Player cat;
+            private Player mouse;
+            private int fieldSize;
+            private List<string> printOutputs;
+            private bool gameEnded;
+            private bool mouseCaught;
+            private int caughtPosition;
+
+            public Game()
+            {
+                cat = new Player("Cat");
+                mouse = new Player("Mouse");
+                printOutputs = new List<string>();
+                gameEnded = false;
+                mouseCaught = false;
+            }
+
+        }
     }
 }
