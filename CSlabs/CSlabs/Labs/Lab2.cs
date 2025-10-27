@@ -187,7 +187,7 @@ namespace CSlabs.Labs
                 if (cat.State != PlayerState.NotInGame && mouse.State != PlayerState.NotInGame)
                     distanceStr = distance.ToString();
 
-                string line = cat.GetPositionString() + "   " + mouse.GetPositionString() + "   " + distanceStr;
+                string line = cat.GetPositionString() + "\t" + mouse.GetPositionString() + "\t    " + distanceStr;
                 printOutputs.Add(line);
             }
             private void SaveToFile(string filename)
