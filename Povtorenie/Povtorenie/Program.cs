@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using Povtorenie;
 class Program
 {
     static void Main()
@@ -69,13 +72,42 @@ class Program
         //word = String.Concat(word, "!!");
         //Console.WriteLine(word);
         //Console.Write(String.Compare(word, "hello"));
-        string people = "Alex,Josh,John,Bob";
-        string[] names = people.Split(new char[] {','});//or people.Split(',');
-        people = String.Join(" ", names);
-        Console.WriteLine(people.Substring(0, people.Length - 1));
+        //string people = "Alex,Josh,John,Bob";
+        //string[] names = people.Split(new char[] {','});//or people.Split(',');
+        //people = String.Join(" ", names);
+        //Console.WriteLine(people.Substring(0, people.Length - 1));
         //foreach (string name in names)
         //    Console.WriteLine(name);
+        //Console.WriteLine("Введите текст: ");
+        //string text = Console.ReadLine();
+        //using(FileStream stream = new FileStream("info.txt", FileMode.OpenOrCreate))
+        //{
+        //    byte[] array = System.Text.Encoding.Default.GetBytes(text);
+
+        //    stream.Write(array, 0, array.Length);
+        //}
+
+        //using(FileStream stream1 = File.OpenRead("info.txt"))
+        //{
+        //    byte[] array = new byte[stream1.Length];//Устанавливаем длину массива
+        //    stream1.Read(array, 0, array.Length);
+        //    string textFromFile = Encoding.Default.GetString(array);
+        //    Console.WriteLine(textFromFile);
+        //}
+
+        //bot.Name = "Bot";
+        //bot.mass = 1;
+        //bot.cords = new byte[] { 0, 0, 0 };
+        Robot.print();
+        Robot bot = new Robot("Bot", 1, new byte[] { 0, 0, 0 });
+        bot.Width = 123;
+        bot.printValues();
+        //Robot.count = 5;
+        Killer killer = new Killer("Killer", 500, new byte[] { 0, 0, 10 }, 80);
+        killer.Lazer();
+        Robot.print();
     }
+}
 
     //public static byte func(byte[] n)
     //{
@@ -86,4 +118,3 @@ class Program
     //    }
     //    return summ;
     //}
-}
