@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using static CSlabs.Labs.Lab3;
 
 namespace CSlabs.Labs
 {
@@ -32,7 +28,7 @@ namespace CSlabs.Labs
                 var sb = new System.Text.StringBuilder();
                 foreach (var token in Tokens)
                 {
-                    sb.Append(token.Word);
+                    sb.Append(token.Word + " ");
                 }
                 return sb.ToString();
             }
@@ -58,12 +54,20 @@ namespace CSlabs.Labs
             public static Text Parse(string sequences)
             {
                 var matches = Regex.Matches(sequences, @"\w+|[.,!?;:]");//регулярка слова или знаки препинания .,!?;:
-                Console.WriteLine("Токены:");
-                foreach (var token in matches)
-                {
-                    Console.WriteLine(token);
-                }
                 var text = new Text();
+                var sentence = new Sentence();
+                foreach (Match match in matches)
+                {
+                    string tokenValue = match.Value;
+                    bool isWord = Regex.IsMatch(tokenValue, @"\w+");
+                    var token = new Token(tokenValue, isWord);
+                    sentence.Tokens.Add(token);
+                    if (tokenValue == "." || tokenValue == "!" || tokenValue == "?" || tokenValue == ":" || tokenValue == ";")
+                    {
+                        text.Sentences.Add(sentence);
+                        sentence = new Sentence();
+                    }
+                }
                 return text;
             }
         }
@@ -75,7 +79,9 @@ namespace CSlabs.Labs
         {
             string inputFile = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\TextFile.txt";
             string sequences = File.ReadAllText(inputFile);
-            Parser.Parse(sequences);
+            Text parsedText = Parser.Parse(sequences);
+            Console.WriteLine("Готовый текст:");
+            Console.WriteLine(parsedText);
         }
     }
 }
