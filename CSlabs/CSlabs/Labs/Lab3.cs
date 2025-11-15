@@ -1,6 +1,7 @@
 ﻿
 using System.Text;
 using System.Text.RegularExpressions;
+using static CSlabs.Labs.Lab3;
 
 namespace CSlabs.Labs
 {
@@ -50,7 +51,6 @@ namespace CSlabs.Labs
             public void Sort1()
             {
                 List<Sentence> sentences2 = (Sentences);
-                int count = 0;
                 sentences2.Sort(delegate (Sentence s1, Sentence s2)
                 {
                     int count1 = 0;
@@ -77,13 +77,25 @@ namespace CSlabs.Labs
                         if (token.Isword) wordCount++;
                     }
 
-                    Console.WriteLine("[Слова: " + wordCount + "] " + sentence);
+                    Console.WriteLine("[Кол-во слов: " + wordCount + "] " + sentence);
                 }
             }
             public void Sort2()
             {
-                List<Sentence> sentences = new List<Sentence>(Sentences);
-                
+                List<Sentence> sentences3 = (Sentences);
+                sentences3.Sort(delegate (Sentence s1, Sentence s2)
+                {
+                    int len1 = s1.ToString().Length;
+                    int len2 = s2.ToString().Length;
+                    return len1.CompareTo(len2);
+                });
+
+                Console.WriteLine("\nПредложения по возрастанию длины:");
+                foreach (Sentence sentence in sentences3)
+                {
+                    int length = sentence.ToString().Length;
+                    Console.WriteLine("[Длина: " + length + "] " + sentence);
+                }
             }
         }
         class Parser
@@ -120,6 +132,7 @@ namespace CSlabs.Labs
             Console.WriteLine("Готовый текст:");
             Console.WriteLine(parsedText);
             parsedText.Sort1();
+            parsedText.Sort2();
         }
     }
 }
