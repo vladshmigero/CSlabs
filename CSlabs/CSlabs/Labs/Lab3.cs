@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -37,7 +37,7 @@ namespace CSlabs.Labs
         }
         public class Text
         {
-            public List <Sentence> Sentences { get; private set;} = new List<Sentence>();
+            public List<Sentence> Sentences { get; private set; } = new List<Sentence>();
             public override string ToString()
             {
                 var sb = new StringBuilder();
@@ -47,7 +47,44 @@ namespace CSlabs.Labs
                 }
                 return sb.ToString();
             }
+            public void Sort1()
+            {
+                List<Sentence> sentences2 = (Sentences);
+                int count = 0;
+                sentences2.Sort(delegate (Sentence s1, Sentence s2)
+                {
+                    int count1 = 0;
+                    foreach (var token in s1.Tokens)
+                    {
+                        if (token.Isword) count1++;
+                    }
 
+                    int count2 = 0;
+                    foreach (var token in s2.Tokens)
+                    {
+                        if (token.Isword) count2++;
+                    }
+
+                    return count1.CompareTo(count2);
+                });
+
+                Console.WriteLine("\nПредложения по возрастанию количества слов:");
+                foreach (Sentence sentence in sentences2)
+                {
+                    int wordCount = 0;
+                    foreach (var token in sentence.Tokens)
+                    {
+                        if (token.Isword) wordCount++;
+                    }
+
+                    Console.WriteLine("[Слова: " + wordCount + "] " + sentence);
+                }
+            }
+            public void Sort2()
+            {
+                List<Sentence> sentences = new List<Sentence>(Sentences);
+                
+            }
         }
         class Parser
         {
@@ -82,6 +119,7 @@ namespace CSlabs.Labs
             Text parsedText = Parser.Parse(sequences);
             Console.WriteLine("Готовый текст:");
             Console.WriteLine(parsedText);
+            parsedText.Sort1();
         }
     }
 }
