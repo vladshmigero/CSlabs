@@ -50,8 +50,8 @@ namespace CSlabs.Labs
             }
             public void Sort1()
             {
-                List<Sentence> sentences2 = (Sentences);
-                sentences2.Sort(delegate (Sentence s1, Sentence s2)
+                List<Sentence> sentences = (Sentences);
+                sentences.Sort(delegate (Sentence s1, Sentence s2)
                 {
                     int count1 = 0;
                     foreach (var token in s1.Tokens)
@@ -69,7 +69,7 @@ namespace CSlabs.Labs
                 });
 
                 Console.WriteLine("\nПредложения по возрастанию количества слов:");
-                foreach (Sentence sentence in sentences2)
+                foreach (Sentence sentence in sentences)
                 {
                     int wordCount = 0;
                     foreach (var token in sentence.Tokens)
@@ -82,8 +82,8 @@ namespace CSlabs.Labs
             }
             public void Sort2()
             {
-                List<Sentence> sentences3 = (Sentences);
-                sentences3.Sort(delegate (Sentence s1, Sentence s2)
+                List<Sentence> sentences = (Sentences);
+                sentences.Sort(delegate (Sentence s1, Sentence s2)
                 {
                     int len1 = s1.ToString().Length;
                     int len2 = s2.ToString().Length;
@@ -91,18 +91,51 @@ namespace CSlabs.Labs
                 });
 
                 Console.WriteLine("\nПредложения по возрастанию длины:");
-                foreach (Sentence sentence in sentences3)
+                foreach (Sentence sentence in sentences)
                 {
                     int length = sentence.ToString().Length;
                     Console.WriteLine("[Длина: " + length + "] " + sentence);
                 }
             }
+            public void poisk(int length)
+            {
+                List<string> words = new List<string>();
+                foreach (var sentence in Sentences)
+                {
+                    if (sentence.Tokens.Last().Word == "?")
+                    {
+                        foreach (var token in sentence.Tokens)
+                        {
+                            if (token.Isword && token.Word.Length == length)
+                            {
+                                words.Add(token.Word);
+                            }
+                        }
+                    }
+                }
+
+                Console.WriteLine($"Слова длиной {length} ");
+                foreach (var word in words)
+                {
+                    Console.WriteLine(word);
+                }
+            }
+            public void Delite(int length)
+            {
+                char[] glasnye = { 'A','E','I','O','U' };
+                foreach (var sentence in Sentences)
+                {
+                   
+                }
+                Console.WriteLine($"Удалены все слова длиной {length}, начинающиеся с согласной буквы.");
+            }
+
         }
         class Parser
         {
             public static Text Parse(string sequences)
             {
-                var matches = Regex.Matches(sequences, @"\w+|[.,!?;:]");//регулярка слова или знаки препинания .,!?;:
+                var matches = Regex.Matches(sequences, @"\w+|[.,!?;:]");
                 var text = new Text();
                 var sentence = new Sentence();
                 foreach (Match match in matches)
@@ -133,6 +166,7 @@ namespace CSlabs.Labs
             Console.WriteLine(parsedText);
             parsedText.Sort1();
             parsedText.Sort2();
+            parsedText.poisk(4);
         }
     }
 }
