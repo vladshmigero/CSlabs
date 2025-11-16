@@ -9,8 +9,8 @@ namespace CSlabs.Labs
     {
         public class Token
         {
-            public string Word { get; private set; }
-            public bool Isword { get; private set; }
+            public string Word { get;  set; }
+            public bool Isword { get;  set; }
             public Token (string word, bool isword)
             {
                 this.Word = word;
@@ -23,13 +23,28 @@ namespace CSlabs.Labs
         }
         public class Sentence
         {
-            public List<Token> Tokens { get; private set; } = new List<Token>();
+            public List<Token> Tokens { get;  set; } = new List<Token>();
             public override string ToString() 
             {
-                var sb = new System.Text.StringBuilder();
+                var sb = new StringBuilder();
+                bool firstWord = true;
                 foreach (var token in Tokens)
                 {
-                    sb.Append(token.Word + " ");
+                    if (token.Isword)
+                    {
+                        if (!firstWord)
+                        {
+                            sb.Append(" ");
+                        }
+                        sb.Append(token.Word);
+                        firstWord = false;
+                    }
+                    else
+                    {
+                        sb.Append(token.Word);
+                        if (token.Word == "," || token.Word == ";" || token.Word == ":" || token.Word == "!" || token.Word == "?" || token.Word == ".")
+                            sb.Append(" ");
+                    }
                 }
                 return sb.ToString();
             }
@@ -38,7 +53,7 @@ namespace CSlabs.Labs
         }
         public class Text
         {
-            public List<Sentence> Sentences { get; private set; } = new List<Sentence>();
+            public List<Sentence> Sentences { get;  set; } = new List<Sentence>();
             public override string ToString()
             {
                 var sb = new StringBuilder();
@@ -94,7 +109,7 @@ namespace CSlabs.Labs
                 foreach (Sentence sentence in sentences)
                 {
                     int length = sentence.ToString().Length;
-                    Console.WriteLine("[Длина: " + length + "] " + sentence);
+                    Console.WriteLine("[Длина: " + (length-1) + "] " + sentence);
                 }
             }
             public void Poisk(int length)
@@ -128,7 +143,7 @@ namespace CSlabs.Labs
                 char[] glasnye = { 'A','E','I','O','U','a', 'e', 'i', 'o', 'u' };
                 foreach (var sentence in Sentences)
                 {
-                    for (int i = sentence.Tokens.Count; i >= 0; i--)
+                    for (int i = sentence.Tokens.Count - 1; i >= 0; i--)
                     {
                         var token = sentence.Tokens[i];
                         if (token.Isword && token.Word.Length == length)
@@ -141,11 +156,28 @@ namespace CSlabs.Labs
                         }
                     }
                 }
-                Console.WriteLine($"Удалены все слова длиной {length}, начинающиеся с согласной буквы.");
+                Console.WriteLine($"\nУдалены все слова длиной {length}, начинающиеся с согласной буквы.");
             }
-            public void zamena()
+            public void zamena(int index, int length, string zamena)
             {
+                if (index < 0 || index >= Sentences.Count)
+                {
+                    Console.WriteLine("Неверный индекс предложения.");
+                    return;
+                }
 
+                var sentence = Sentences[index];
+
+                foreach (var token in sentence.Tokens)
+                {
+                    if (token.Isword && token.Word.Length == length)
+                    {
+                        token.Word = zamena;
+                    }
+                }
+                
+                Console.WriteLine($"\nПосле замены в предложении {index}:");
+                Console.WriteLine(sentence);
             }
 
         }
@@ -186,8 +218,9 @@ namespace CSlabs.Labs
             parsedText.Sort2();
             parsedText.Poisk(3);
             parsedText.Delite(5);
-            Console.WriteLine("\nТекст после удаления:");
+            Console.WriteLine("Текст после удаления:");
             Console.WriteLine(parsedText);
+            parsedText.zamena(0, 4, "Replaced for this");
         }
     }
 }
