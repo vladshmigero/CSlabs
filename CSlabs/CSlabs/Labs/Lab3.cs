@@ -97,7 +97,7 @@ namespace CSlabs.Labs
                     Console.WriteLine("[Длина: " + length + "] " + sentence);
                 }
             }
-            public void poisk(int length)
+            public void Poisk(int length)
             {
                 List<string> words = new List<string>();
                 foreach (var sentence in Sentences)
@@ -108,13 +108,16 @@ namespace CSlabs.Labs
                         {
                             if (token.Isword && token.Word.Length == length)
                             {
-                                words.Add(token.Word);
+                                if (!words.Contains(token.Word))
+                                {
+                                    words.Add(token.Word);
+                                }
                             }
                         }
                     }
                 }
 
-                Console.WriteLine($"Слова длиной {length} ");
+                Console.WriteLine($"\nСлова длиной {length} в вопросительных предложениях:");
                 foreach (var word in words)
                 {
                     Console.WriteLine(word);
@@ -122,12 +125,27 @@ namespace CSlabs.Labs
             }
             public void Delite(int length)
             {
-                char[] glasnye = { 'A','E','I','O','U' };
+                char[] glasnye = { 'A','E','I','O','U','a', 'e', 'i', 'o', 'u' };
                 foreach (var sentence in Sentences)
                 {
-                   
+                    for (int i = sentence.Tokens.Count; i >= 0; i--)
+                    {
+                        var token = sentence.Tokens[i];
+                        if (token.Isword && token.Word.Length == length)
+                        {
+                            char firstLetter = token.Word[0];
+                            if (!glasnye.Contains(firstLetter))
+                            {
+                                sentence.Tokens.RemoveAt(i);
+                            }
+                        }
+                    }
                 }
                 Console.WriteLine($"Удалены все слова длиной {length}, начинающиеся с согласной буквы.");
+            }
+            public void zamena()
+            {
+
             }
 
         }
@@ -166,7 +184,10 @@ namespace CSlabs.Labs
             Console.WriteLine(parsedText);
             parsedText.Sort1();
             parsedText.Sort2();
-            parsedText.poisk(4);
+            parsedText.Poisk(3);
+            parsedText.Delite(5);
+            Console.WriteLine("\nТекст после удаления:");
+            Console.WriteLine(parsedText);
         }
     }
 }
