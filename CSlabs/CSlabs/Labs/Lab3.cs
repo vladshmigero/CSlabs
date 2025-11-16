@@ -165,9 +165,7 @@ namespace CSlabs.Labs
                     Console.WriteLine("Неверный индекс предложения.");
                     return;
                 }
-
                 var sentence = Sentences[index];
-
                 foreach (var token in sentence.Tokens)
                 {
                     if (token.Isword && token.Word.Length == length)
@@ -175,11 +173,38 @@ namespace CSlabs.Labs
                         token.Word = zamena;
                     }
                 }
-                
                 Console.WriteLine($"\nПосле замены в предложении {index}:");
                 Console.WriteLine(sentence);
             }
+            public void StopWords(List<string> stopWords)
+            {
+                foreach (var sentence in Sentences)
+                {
+                    for (int i = sentence.Tokens.Count - 1; i >= 0; i--)
+                    {
+                        var token = sentence.Tokens[i];
 
+                        if (token.Isword)
+                        {
+                            string wordLower = token.Word.ToLower();
+                            bool isStopWord = false;
+                            foreach (var sw in stopWords)
+                            {
+                                if (wordLower == sw)
+                                {
+                                    isStopWord = true;
+                                    break;
+                                }
+                            }
+                            if (isStopWord)
+                            {
+                                sentence.Tokens.RemoveAt(i);
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine("\nCтоп-слова удалены из текста.");
+            }
         }
         class Parser
         {
@@ -211,16 +236,30 @@ namespace CSlabs.Labs
         {
             string inputFile = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\TextFile.txt";
             string sequences = File.ReadAllText(inputFile);
+            var StopWords = File.ReadAllLines(@"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\StopWords.txt").ToList();
             Text parsedText = Parser.Parse(sequences);
             Console.WriteLine("Готовый текст:");
             Console.WriteLine(parsedText);
             parsedText.Sort1();
             parsedText.Sort2();
-            parsedText.Poisk(3);
-            parsedText.Delite(5);
+            Console.WriteLine("\nСлова какой длины вы хотите найти?");
+            int a = int.Parse(Console.ReadLine());
+            parsedText.Poisk(a);
+            Console.WriteLine("\nСлова какой длины вы хотите удалить?");
+            int b = int.Parse(Console.ReadLine());
+            parsedText.Delite(b);
             Console.WriteLine("Текст после удаления:");
             Console.WriteLine(parsedText);
-            parsedText.zamena(0, 4, "Replaced for this");
+            Console.WriteLine("\nКакоq длины слово в каком предложении вы хотите заменить?\nВведите длину: ");
+            int c = int.Parse(Console.ReadLine());
+            Console.WriteLine("\nВведите номер предложения: ");
+            int d = int.Parse(Console.ReadLine());
+            Console.WriteLine("\nВведите текст: ");
+            string text = Console.ReadLine();
+            parsedText.zamena(d, c, text);
+            parsedText.StopWords(StopWords);
+            Console.WriteLine("\nТекст после удаления стоп-слов:");
+            Console.WriteLine(parsedText);
         }
     }
 }
