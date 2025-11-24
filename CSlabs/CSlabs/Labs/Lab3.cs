@@ -1,4 +1,4 @@
-﻿
+﻿using System.Xml.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using static CSlabs.Labs.Lab3;
@@ -63,7 +63,7 @@ namespace CSlabs.Labs
                 }
                 return sb.ToString();
             }
-            public void Sort1()
+            public List<Sentence> Sort1()
             {
                 List<Sentence> sentences = (Sentences);
                 sentences.Sort(delegate (Sentence s1, Sentence s2)
@@ -83,19 +83,9 @@ namespace CSlabs.Labs
                     return count1.CompareTo(count2);
                 });
 
-                Console.WriteLine("\nПредложения по возрастанию количества слов:");
-                foreach (Sentence sentence in sentences)
-                {
-                    int wordCount = 0;
-                    foreach (var token in sentence.Tokens)
-                    {
-                        if (token.Isword) wordCount++;
-                    }
-
-                    Console.WriteLine("[Кол-во слов: " + wordCount + "] " + sentence);
-                }
+                return sentences;
             }
-            public void Sort2()
+            public List<Sentence> Sort2()
             {
                 List<Sentence> sentences = (Sentences);
                 sentences.Sort(delegate (Sentence s1, Sentence s2)
@@ -105,14 +95,9 @@ namespace CSlabs.Labs
                     return len1.CompareTo(len2);
                 });
 
-                Console.WriteLine("\nПредложения по возрастанию длины:");
-                foreach (Sentence sentence in sentences)
-                {
-                    int length = sentence.ToString().Length;
-                    Console.WriteLine("[Длина: " + (length-1) + "] " + sentence);
-                }
+                return sentences;
             }
-            public void Poisk(int length)
+            public List<string> Poisk(int length)
             {
                 List<string> words = new List<string>();
                 foreach (var sentence in Sentences)
@@ -132,13 +117,9 @@ namespace CSlabs.Labs
                     }
                 }
 
-                Console.WriteLine($"\nСлова длиной {length} в вопросительных предложениях:");
-                foreach (var word in words)
-                {
-                    Console.WriteLine(word);
-                }
+                return words;
             }
-            public void Delite(int length)
+            public Text Delite(int length)
             {
                 char[] glasnye = { 'A','E','I','O','U','a', 'e', 'i', 'o', 'u' };
                 foreach (var sentence in Sentences)
@@ -156,14 +137,13 @@ namespace CSlabs.Labs
                         }
                     }
                 }
-                Console.WriteLine($"\nУдалены все слова длиной {length}, начинающиеся с согласной буквы.");
+                return this;
             }
-            public void zamena(int index, int length, string zamena)
+            public Sentence zamena(int index, int length, string zamena)
             {
                 if (index < 0 || index >= Sentences.Count)
                 {
-                    Console.WriteLine("Неверный индекс предложения.");
-                    return;
+                    return null;
                 }
                 var sentence = Sentences[index];
                 foreach (var token in sentence.Tokens)
@@ -173,10 +153,9 @@ namespace CSlabs.Labs
                         token.Word = zamena;
                     }
                 }
-                Console.WriteLine($"\nПосле замены в предложении {index}:");
-                Console.WriteLine(sentence);
+                return sentence;
             }
-            public void StopWords(List<string> stopWords)
+            public Text StopWords(List<string> stopWords)
             {
                 foreach (var sentence in Sentences)
                 {
@@ -203,7 +182,7 @@ namespace CSlabs.Labs
                         }
                     }
                 }
-                Console.WriteLine("\nCтоп-слова удалены из текста.");
+                return this;
             }
         }
         class Parser
@@ -230,8 +209,6 @@ namespace CSlabs.Labs
         }
 
 
-
-
         static void Main(string[] args)
         {
             string inputFile = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\TextFile.txt";
@@ -240,24 +217,41 @@ namespace CSlabs.Labs
             Text parsedText = Parser.Parse(sequences);
             Console.WriteLine("Готовый текст:");
             Console.WriteLine(parsedText);
-            parsedText.Sort1();
-            parsedText.Sort2();
+            Console.WriteLine("\nПредложения по возрастанию количества слов:");
+            foreach (var sentence in parsedText.Sort1())
+            {
+                int wordCount = sentence.Tokens.Count(t => t.Isword);
+                Console.WriteLine("[Кол-во слов: " + wordCount + "] " + sentence);
+            }
+            Console.WriteLine("\nПредложения по возрастанию длины:");
+            foreach (var sentence in parsedText.Sort2())
+            {
+                int length = sentence.ToString().Length;
+                Console.WriteLine("[Длина: " + (length - 1) + "] " + sentence);
+            }
             Console.WriteLine("\nСлова какой длины вы хотите найти?");
             int a = int.Parse(Console.ReadLine());
-            parsedText.Poisk(a);
+            var foundWords = parsedText.Poisk(a);
+            Console.WriteLine($"\nСлова длиной {a} в вопросительных предложениях:");
+            foreach (var word in foundWords)
+            {
+                Console.WriteLine(word);
+            }
             Console.WriteLine("\nСлова какой длины вы хотите удалить?");
             int b = int.Parse(Console.ReadLine());
-            parsedText.Delite(b);
+            parsedText = parsedText.Delite(b);
             Console.WriteLine("Текст после удаления:");
             Console.WriteLine(parsedText);
-            Console.WriteLine("\nКакоq длины слово в каком предложении вы хотите заменить?\nВведите длину: ");
+            Console.WriteLine("\nКакой длины слово в каком предложении вы хотите заменить?\nВведите длину: ");
             int c = int.Parse(Console.ReadLine());
             Console.WriteLine("\nВведите номер предложения: ");
             int d = int.Parse(Console.ReadLine());
             Console.WriteLine("\nВведите текст: ");
             string text = Console.ReadLine();
-            parsedText.zamena(d, c, text);
-            parsedText.StopWords(StopWords);
+            var changedSentence = parsedText.zamena(d, c, text);
+            Console.WriteLine($"\nПосле замены в предложении {d}:");
+            Console.WriteLine(changedSentence);
+            parsedText = parsedText.StopWords(StopWords);
             Console.WriteLine("\nТекст после удаления стоп-слов:");
             Console.WriteLine(parsedText);
         }
