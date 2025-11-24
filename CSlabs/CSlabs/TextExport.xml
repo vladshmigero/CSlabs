@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<text xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <sentence>
+    <word>dear</word>
+    <word>skebob</word>
+    <word>!</word>
+  </sentence>
+  <sentence>
+    <word>bla</word>
+    <word>bla</word>
+    <word>bla</word>
+    <word>bla</word>
+    <word>?</word>
+  </sentence>
+  <sentence>
+    <word>Bla</word>
+    <word>bla</word>
+    <word>bla</word>
+    <word>bla</word>
+    <word>?</word>
+  </sentence>
+  <sentence>
+    <word>OHHH</word>
+    <word>bla</word>
+    <word>bla</word>
+    <word>,</word>
+    <word>bla</word>
+    <word>bla</word>
+    <word>:</word>
+  </sentence>
+  <sentence>
+    <word>Skebob</word>
+    <word>.</word>
+  </sentence>
+</text>

@@ -9,8 +9,11 @@ namespace CSlabs.Labs
     {
         public class Token
         {
+            [XmlText]
             public string Word { get;  set; }
+            [XmlIgnore]
             public bool Isword { get;  set; }
+            public Token() { }
             public Token (string word, bool isword)
             {
                 this.Word = word;
@@ -23,6 +26,7 @@ namespace CSlabs.Labs
         }
         public class Sentence
         {
+            [XmlElement("word")]
             public List<Token> Tokens { get;  set; } = new List<Token>();
             public override string ToString() 
             {
@@ -51,8 +55,10 @@ namespace CSlabs.Labs
 
 
         }
+        [XmlRoot("text")]
         public class Text
         {
+            [XmlElement("sentence")]
             public List<Sentence> Sentences { get;  set; } = new List<Sentence>();
             public override string ToString()
             {
@@ -184,6 +190,15 @@ namespace CSlabs.Labs
                 }
                 return this;
             }
+            public static void ExportToXml(Text text, string filePath)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Text));
+                using (var writer = new StreamWriter(filePath))
+                {
+                    serializer.Serialize(writer, text);
+                }
+                Console.WriteLine($"\nТекст успешно экспортирован в XML: {filePath}");
+            }
         }
         class Parser
         {
@@ -254,6 +269,8 @@ namespace CSlabs.Labs
             parsedText = parsedText.StopWords(StopWords);
             Console.WriteLine("\nТекст после удаления стоп-слов:");
             Console.WriteLine(parsedText);
+            string xml = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\TextExport.xml";
+            Text.ExportToXml(parsedText, xml);
         }
     }
 }
