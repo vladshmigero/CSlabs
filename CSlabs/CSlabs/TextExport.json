@@ -3,108 +3,86 @@
     {
       "Tokens": [
         {
-          "Word": "dear",
-          "Isword": true
+          "Word": "sfaf"
         },
         {
-          "Word": "skebob",
-          "Isword": true
+          "Word": "skebob"
         },
         {
-          "Word": "!",
-          "Isword": false
+          "Word": "!"
         }
       ]
     },
     {
       "Tokens": [
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": "?",
-          "Isword": false
+          "Word": "?"
         }
       ]
     },
     {
       "Tokens": [
         {
-          "Word": "Bla",
-          "Isword": true
+          "Word": "Bla"
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": "?",
-          "Isword": false
+          "Word": "?"
         }
       ]
     },
     {
       "Tokens": [
         {
-          "Word": "OHHH",
-          "Isword": true
+          "Word": "OHHH"
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": ",",
-          "Isword": false
+          "Word": ","
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": "bla",
-          "Isword": true
+          "Word": "bla"
         },
         {
-          "Word": ":",
-          "Isword": false
+          "Word": ":"
         }
       ]
     },
     {
       "Tokens": [
         {
-          "Word": "Skebob",
-          "Isword": true
+          "Word": "Skebob"
         },
         {
-          "Word": ".",
-          "Isword": false
+          "Word": "."
         }
       ]
     }

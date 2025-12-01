@@ -1,8 +1,9 @@
-﻿using System.Xml.Serialization;
+﻿using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Text.Json;
-using System.IO;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 namespace CSlabs.Labs
 {
@@ -13,6 +14,7 @@ namespace CSlabs.Labs
             [XmlText]
             public string Word { get;  set; }
             [XmlIgnore]
+            [JsonIgnore]
             public bool Isword { get;  set; }
             public Token() { }
             public Token (string word, bool isword)
