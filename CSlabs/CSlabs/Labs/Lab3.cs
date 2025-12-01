@@ -1,7 +1,8 @@
 ﻿using System.Xml.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
-using static CSlabs.Labs.Lab3;
+using System.Text.Json;
+using System.IO;
 
 namespace CSlabs.Labs
 {
@@ -199,6 +200,63 @@ namespace CSlabs.Labs
                 }
                 Console.WriteLine($"\nТекст успешно экспортирован в XML: {filePath}");
             }
+            public static void ExportToJson(Text text, string filePath)
+            {
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                };
+                string json = JsonSerializer.Serialize(text, options);
+                File.WriteAllText(filePath, json);
+                Console.WriteLine($"\nТекст успешно экспортирован в JSON: {filePath}");
+            }
+            public static Text ImportFromJson(string filePath)
+            {
+                string json = File.ReadAllText(filePath);
+                return JsonSerializer.Deserialize<Text>(json);
+            }
+
+            public static void ExportToBinary(Text text, string filePath)
+            {
+                using (var fs = new FileStream(filePath, FileMode.Create))
+                using (var writer = new BinaryWriter(fs))
+                {
+                    writer.Write(text.Sentences.Count);
+                    foreach (var sentence in text.Sentences)
+                    {
+                        writer.Write(sentence.Tokens.Count);
+                        foreach (var token in sentence.Tokens)
+                        {
+                            writer.Write(token.Word);
+                            writer.Write(token.Isword);
+                        }
+                    }
+                }
+                Console.WriteLine($"\nТекст успешно экспортирован в бинарный формат: {filePath}");
+            }
+
+            public static Text ImportFromBinary(string filePath)
+            {
+                var text = new Text();
+                using (var fs = new FileStream(filePath, FileMode.Open))
+                using (var reader = new BinaryReader(fs))
+                {
+                    int sentenceCount = reader.ReadInt32();
+                    for (int i = 0; i < sentenceCount; i++)
+                    {
+                        var sentence = new Sentence();
+                        int tokenCount = reader.ReadInt32();
+                        for (int j = 0; j < tokenCount; j++)
+                        {
+                            string word = reader.ReadString();
+                            bool isWord = reader.ReadBoolean();
+                            sentence.Tokens.Add(new Token(word, isWord));
+                        }
+                        text.Sentences.Add(sentence);
+                    }
+                }
+                return text;
+            }
         }
         class Parser
         {
@@ -271,6 +329,10 @@ namespace CSlabs.Labs
             Console.WriteLine(parsedText);
             string xml = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\TextExport.xml";
             Text.ExportToXml(parsedText, xml);
+            string json = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\TextExport.json";
+            Text.ExportToJson(parsedText, json);
+            string bin = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\TextExport.bin";
+            Text.ExportToBinary(parsedText, bin);
         }
     }
 }

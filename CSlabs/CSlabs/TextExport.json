@@ -1,0 +1,112 @@
+{
+  "Sentences": [
+    {
+      "Tokens": [
+        {
+          "Word": "dear",
+          "Isword": true
+        },
+        {
+          "Word": "skebob",
+          "Isword": true
+        },
+        {
+          "Word": "!",
+          "Isword": false
+        }
+      ]
+    },
+    {
+      "Tokens": [
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": "?",
+          "Isword": false
+        }
+      ]
+    },
+    {
+      "Tokens": [
+        {
+          "Word": "Bla",
+          "Isword": true
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": "?",
+          "Isword": false
+        }
+      ]
+    },
+    {
+      "Tokens": [
+        {
+          "Word": "OHHH",
+          "Isword": true
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": ",",
+          "Isword": false
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": "bla",
+          "Isword": true
+        },
+        {
+          "Word": ":",
+          "Isword": false
+        }
+      ]
+    },
+    {
+      "Tokens": [
+        {
+          "Word": "Skebob",
+          "Isword": true
+        },
+        {
+          "Word": ".",
+          "Isword": false
+        }
+      ]
+    }
+  ]
+}
