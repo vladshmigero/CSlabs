@@ -212,53 +212,24 @@ namespace CSlabs.Labs
                 File.WriteAllText(filePath, json);
                 Console.WriteLine($"\nТекст успешно экспортирован в JSON: {filePath}");
             }
-            public static Text ImportFromJson(string filePath)
-            {
-                string json = File.ReadAllText(filePath);
-                return JsonSerializer.Deserialize<Text>(json);
-            }
 
             public static void ExportToBinary(Text text, string filePath)
             {
                 using (var fs = new FileStream(filePath, FileMode.Create))
                 using (var writer = new BinaryWriter(fs))
                 {
-                    writer.Write(text.Sentences.Count);
                     foreach (var sentence in text.Sentences)
                     {
-                        writer.Write(sentence.Tokens.Count);
                         foreach (var token in sentence.Tokens)
                         {
                             writer.Write(token.Word);
-                            writer.Write(token.Isword);
                         }
                     }
                 }
                 Console.WriteLine($"\nТекст успешно экспортирован в бинарный формат: {filePath}");
             }
 
-            public static Text ImportFromBinary(string filePath)
-            {
-                var text = new Text();
-                using (var fs = new FileStream(filePath, FileMode.Open))
-                using (var reader = new BinaryReader(fs))
-                {
-                    int sentenceCount = reader.ReadInt32();
-                    for (int i = 0; i < sentenceCount; i++)
-                    {
-                        var sentence = new Sentence();
-                        int tokenCount = reader.ReadInt32();
-                        for (int j = 0; j < tokenCount; j++)
-                        {
-                            string word = reader.ReadString();
-                            bool isWord = reader.ReadBoolean();
-                            sentence.Tokens.Add(new Token(word, isWord));
-                        }
-                        text.Sentences.Add(sentence);
-                    }
-                }
-                return text;
-            }
+            
         }
         class Parser
         {
