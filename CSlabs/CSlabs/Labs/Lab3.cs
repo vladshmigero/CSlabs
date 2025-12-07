@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -227,6 +228,29 @@ namespace CSlabs.Labs
                     }
                 }
                 Console.WriteLine($"\nТекст успешно экспортирован в бинарный формат: {filePath}");
+            }
+            public Dictionary<string, (SortedSet<int> stroka, int i)> Concordance()
+            {
+                var concordance = new Dictionary<string, (int count, SortedSet<int> stroka)>();
+                for (int i = 0; i < Sentences.Count; i++)
+                {
+                    var sentence = Sentences[i];
+                    foreach (var token in sentence.Tokens)
+                    {
+                        string tokenToLower = token.Word.ToLower();
+                        if (concordance.ContainsKey(tokenToLower))
+                        {
+                            concordance[tokenToLower] = (0, new SortedSet<int>());
+                        }
+                        if (token.Isword)
+                        {
+                            var kortez = concordance[tokenToLower];
+                            kortez.count++;
+                            concordance[tokenToLower] = kortez;
+                        }
+                    }
+                }
+                return concordance;
             }
 
             
