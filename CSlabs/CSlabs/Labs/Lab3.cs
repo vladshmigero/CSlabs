@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -229,28 +230,44 @@ namespace CSlabs.Labs
                 }
                 Console.WriteLine($"\nТекст успешно экспортирован в бинарный формат: {filePath}");
             }
-            public Dictionary<string, (SortedSet<int> stroka, int i)> Concordance()
+            public string Concordance()
             {
-                var concordance = new Dictionary<string, (int count, SortedSet<int> stroka)>();
+                var concordance = new Dictionary<string, (int count, SortedSet<int> stroka)>(StringComparer.OrdinalIgnoreCase);
                 for (int i = 0; i < Sentences.Count; i++)
                 {
-                    var sentence = Sentences[i];
-                    foreach (var token in sentence.Tokens)
+                    int index = i + 1;
+                    foreach (var token in Sentences[i].Tokens)
                     {
-                        string tokenToLower = token.Word.ToLower();
-                        if (concordance.ContainsKey(tokenToLower))
+                        if (!token.Isword) continue;
+                        string word = token.Word.ToLower();
+                        if (!concordance.ContainsKey(word))
                         {
-                            concordance[tokenToLower] = (0, new SortedSet<int>());
+                            concordance[word] = (0, new SortedSet<int>());
                         }
-                        if (token.Isword)
-                        {
-                            var kortez = concordance[tokenToLower];
-                            kortez.count++;
-                            concordance[tokenToLower] = kortez;
-                        }
+                        var perem = concordance[word];
+                        perem.count++;
+                        perem.stroka.Add(index);
+                        concordance[word] = perem;
                     }
                 }
-                return concordance;
+                var sb = new StringBuilder();
+
+                List<string> words = concordance.Keys.ToList();
+                words.Sort();
+                foreach (string word in words)
+                {
+                    var perem = concordance[word];
+                    int dots = Math.Max(1, 35 - word.Length);
+
+                    sb.Append(word);
+                    sb.Append(new string('.', dots));
+                    sb.Append(perem.count);
+                    sb.Append(": ");
+                    sb.Append(string.Join(" ", perem.stroka));
+                    sb.AppendLine();
+                }
+
+                return sb.ToString();
             }
 
             
@@ -287,6 +304,8 @@ namespace CSlabs.Labs
             Text parsedText = Parser.Parse(sequences);
             Console.WriteLine("Готовый текст:");
             Console.WriteLine(parsedText);
+            Console.WriteLine("\nКонкорданс:");
+            Console.WriteLine(parsedText.Concordance());
             Console.WriteLine("\nПредложения по возрастанию количества слов:");
             foreach (var sentence in parsedText.Sort1())
             {
