@@ -300,7 +300,7 @@ namespace CSlabs.Labs
         }
 
 
-        static void Main(string[] args)
+        static void Main1(string[] args)
         {
             string inputFile = @"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\TextFile.txt";
             string sequences = File.ReadAllText(inputFile);
