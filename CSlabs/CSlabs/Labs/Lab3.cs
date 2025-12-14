@@ -18,6 +18,9 @@ namespace CSlabs.Labs
             [XmlIgnore]
             [JsonIgnore]
             public bool Isword { get;  set; }
+            [XmlIgnore]
+            [JsonIgnore]
+            public int Line { get; set; }
             public Token() { }
             public Token (string word, bool isword)
             {
@@ -230,16 +233,17 @@ namespace CSlabs.Labs
                 }
                 Console.WriteLine($"\nТекст успешно экспортирован в бинарный формат: {filePath}");
             }
-            public string Concordance()
+            public string Concordance(string text)
             {
                 var concordance = new Dictionary<string, (int count, SortedSet<int> stroka)>(StringComparer.OrdinalIgnoreCase);
-                for (int i = 0; i < Sentences.Count; i++)
+                var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+                for (int i = 0; i < lines.Length; i++)
                 {
                     int index = i + 1;
-                    foreach (var token in Sentences[i].Tokens)
+                    var matches = Regex.Matches(lines[i], @"\w+");
+                    foreach (Match match in matches)
                     {
-                        if (!token.Isword) continue;
-                        string word = token.Word.ToLower();
+                        string word = match.Value.ToLower();
                         if (!concordance.ContainsKey(word))
                         {
                             concordance[word] = (0, new SortedSet<int>());
@@ -305,7 +309,7 @@ namespace CSlabs.Labs
             Console.WriteLine("Готовый текст:");
             Console.WriteLine(parsedText);
             Console.WriteLine("\nКонкорданс:");
-            Console.WriteLine(parsedText.Concordance());
+            Console.WriteLine(parsedText.Concordance(sequences));
             Console.WriteLine("\nПредложения по возрастанию количества слов:");
             foreach (var sentence in parsedText.Sort1())
             {
