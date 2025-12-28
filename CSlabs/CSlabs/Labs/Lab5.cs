@@ -80,11 +80,12 @@ namespace CSlabs.Labs
             }
             public void ShowInfo()
             {
-                Console.WriteLine("Состав подарка:");
+                Console.WriteLine("----------Состав подарка-----------------------------------------");
                 foreach (var s in sladosti)
                 {
                     Console.WriteLine(s.GetInfo());
                 }
+                Console.WriteLine("-----------------------------------------------------------------");
                 Console.WriteLine($"Общий вес подарка: {GetWeight()} г");
             }
             public void SortByWeight()
@@ -95,6 +96,19 @@ namespace CSlabs.Labs
             { 
                 sladosti.Sort(new SugarComparer());
             }
+            public List<Sladost> PoiskKonfet(int min, int max)
+            {
+                List<Sladost> result = new List<Sladost>();
+                foreach (var s in sladosti)
+                {
+                    if (s.Sugar >= min && s.Sugar <= max)
+                    {
+                        result.Add(s);
+                    }
+                }
+                return result;
+            }
+
         }
         public class SugarComparer : IComparer<Sladost> 
         { 
@@ -122,6 +136,21 @@ namespace CSlabs.Labs
             Console.WriteLine("\nПосле сортировки по сахару:");
             gift.SortBySugar();
             gift.ShowInfo();
+            Console.WriteLine("\nВведите диапазон содержания сахара, для поиска конфет:\nОт:");
+            int x = int.Parse(Console.ReadLine());
+            Console.WriteLine("До:");
+            int y = int.Parse(Console.ReadLine());
+            List<Sladost> foundList = gift.PoiskKonfet(x, y);
+            if (foundList.Count > 0) 
+            {
+                Console.WriteLine("Найдены сладости:");
+                foreach (var sladost in foundList) 
+                { 
+                    Console.WriteLine(sladost.GetInfo()); 
+                } 
+            }
+            else 
+            { Console.WriteLine("В указанном диапазоне сладостей не найдено."); }
         }
     }
 }
