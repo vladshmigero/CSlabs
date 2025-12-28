@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text.Json;
 
 namespace CSlabs.Labs
 {
@@ -108,8 +110,41 @@ namespace CSlabs.Labs
                 }
                 return result;
             }
+            public void LoadFromFile(string filePath)
+            {
+                string json = File.ReadAllText(filePath);
+                var items = JsonSerializer.Deserialize<List<Dto>>(json);
+
+                foreach (var item in items)
+                {
+                    switch (item.Type)
+                    {
+                        case "Candy":
+                            Add(new Candy(item.Name, item.Weight, item.Sugar, item.Vkys));
+                            break;
+                        case "Chocolate":
+                            Add(new Chocolate(item.Name, item.Weight, item.Sugar, item.CocoaProcent, item.WithNuts));
+                            break;
+                        case "Marshmallow":
+                            Add(new Marshmallow(item.Name, item.Weight, item.Sugar, item.Color));
+                            break;
+                    }
+                }
+            }
 
         }
+        public class Dto
+        {
+            public string Type { get; set; }
+            public string Name { get; set; }
+            public double Weight { get; set; }
+            public int Sugar { get; set; }
+            public string Vkys { get; set; }
+            public int CocoaProcent { get; set; }
+            public bool WithNuts { get; set; }
+            public string Color { get; set; }
+        }
+
         public class SugarComparer : IComparer<Sladost> 
         { 
             public int Compare(Sladost x, Sladost y) 
@@ -120,14 +155,7 @@ namespace CSlabs.Labs
         static void Main(string[] args)
         {
             Gift gift = new Gift();
-            gift.Add(new Candy("Карамелька", 50, 30, "Клубничный"));
-            gift.Add(new Candy("Барбариска", 40, 20, "Кислый"));
-            gift.Add(new Candy("Леденец", 100, 60, "Кокакола"));
-            gift.Add(new Chocolate("Аленка", 100, 40, 70, true));
-            gift.Add(new Chocolate("Камунарка", 90, 35, 75, false));
-            gift.Add(new Chocolate("Казахстан", 100, 40, 70, false));
-            gift.Add(new Marshmallow("Зефирки", 60, 20, "Розовый"));
-            gift.Add(new Marshmallow("Marshmallow", 100, 30, "Белый"));
+            gift.LoadFromFile(@"C:\Users\user\source\repos\vladshmigero\CSlabs\CSlabs\CSlabs\Labs\Sladosti.json");
             Console.WriteLine("До сортировки:");
             gift.ShowInfo();
             Console.WriteLine("\nПосле сортировки по весу:"); 

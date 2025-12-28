@@ -1,0 +1,61 @@
+﻿[
+    {
+        "Type": "Candy",
+        "Name": "Карамелька",
+        "Weight": 50,
+        "Sugar": 30,
+        "Vkys": "Клубничный"
+    },
+    {
+        "Type": "Candy",
+        "Name": "Барбариска",
+        "Weight": 40,
+        "Sugar": 20,
+        "Vkys": "Кислый"
+    },
+    {
+        "Type": "Candy",
+        "Name": "Леденец",
+        "Weight": 100,
+        "Sugar": 60,
+        "Vkys": "Кокакола"
+    },
+    {
+        "Type": "Chocolate",
+        "Name": "Аленка",
+        "Weight": 100,
+        "Sugar": 40,
+        "CocoaProcent": 70,
+        "WithNuts": true
+    },
+    {
+        "Type": "Chocolate",
+        "Name": "Камунарка",
+        "Weight": 90,
+        "Sugar": 35,
+        "CocoaProcent": 75,
+        "WithNuts": false
+    },
+    {
+        "Type": "Chocolate",
+        "Name": "Казахстан",
+        "Weight": 100,
+        "Sugar": 40,
+        "CocoaProcent": 70,
+        "WithNuts": false
+    },
+    {
+        "Type": "Marshmallow",
+        "Name": "Зефирки",
+        "Weight": 60,
+        "Sugar": 20,
+        "Color": "Розовый"
+    },
+    {
+        "Type": "Marshmallow",
+        "Name": "Marshmallow",
+        "Weight": 100,
+        "Sugar": 30,
+        "Color": "Белый"
+    }
+]
