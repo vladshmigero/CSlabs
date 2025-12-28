@@ -8,7 +8,7 @@ namespace CSlabs.Labs
 {
     public class lab5
     {
-        public abstract class Sladost
+        public abstract class Sladost : IComparable<Sladost>
         {
             public string Name { get; set; }
             public double Weight { get; set; }
@@ -21,6 +21,10 @@ namespace CSlabs.Labs
                 Sugar = sugar;
             }
             public abstract string GetInfo();
+            public int CompareTo(Sladost other)
+            {
+                return Weight.CompareTo(other.Weight);
+            }
         }
         public class Candy : Sladost
         {
@@ -31,7 +35,7 @@ namespace CSlabs.Labs
             }
             public override string GetInfo()
             {
-                return $"Название сладости: {Name}, Вкус: {Vkys}, Вес: {Weight}, Содержание сахара: {Sugar}.";
+                return $"Название сладости: {Name}, Вкус: {Vkys}, Вес: {Weight}г, Содержание сахара: {Sugar}г.";
             }
         }
         
@@ -46,7 +50,7 @@ namespace CSlabs.Labs
             }
             public override string GetInfo()
             {
-                return $"Название сладости: {Name}, Вес: {Weight}, Содержание сахара: {Sugar}, C орешками?: {(WithNuts ? "да" : "нет")}, Содержание какао: {CocoaProcent}%.";
+                return $"Название сладости: {Name}, Вес: {Weight}г, Содержание сахара: {Sugar}г, C орешками?: {(WithNuts ? "да" : "нет")}, Содержание какао: {CocoaProcent}%.";
             }
         }
         public class Marshmallow : Sladost
@@ -58,7 +62,7 @@ namespace CSlabs.Labs
             }
             public override string GetInfo()
             {
-                return $"Название сладости: {Name}, Вес: {Weight}, Содержание сахара: {Sugar}, Цвет: {Color}.";
+                return $"Название сладости: {Name}, Вес: {Weight}г, Содержание сахара: {Sugar}г, Цвет: {Color}.";
             }
         }
         public class Gift
@@ -79,9 +83,24 @@ namespace CSlabs.Labs
                 Console.WriteLine("Состав подарка:");
                 foreach (var s in sladosti)
                 {
-                   Console.WriteLine(s.GetInfo());
+                    Console.WriteLine(s.GetInfo());
                 }
                 Console.WriteLine($"Общий вес подарка: {GetWeight()} г");
+            }
+            public void SortByWeight()
+            {
+                sladosti.Sort();
+            }
+            public void SortBySugar() 
+            { 
+                sladosti.Sort(new SugarComparer());
+            }
+        }
+        public class SugarComparer : IComparer<Sladost> 
+        { 
+            public int Compare(Sladost x, Sladost y) 
+            { 
+                return x.Sugar.CompareTo(y.Sugar);
             }
         }
         static void Main(string[] args)
@@ -94,8 +113,14 @@ namespace CSlabs.Labs
             gift.Add(new Chocolate("Камунарка", 90, 35, 75, false));
             gift.Add(new Chocolate("Казахстан", 100, 40, 70, false));
             gift.Add(new Marshmallow("Зефирки", 60, 20, "Розовый"));
-            gift.Add(new Marshmallow("Зефир", 200, 70, "Белый"));
             gift.Add(new Marshmallow("Marshmallow", 100, 30, "Белый"));
+            Console.WriteLine("До сортировки:");
+            gift.ShowInfo();
+            Console.WriteLine("\nПосле сортировки по весу:"); 
+            gift.SortByWeight(); 
+            gift.ShowInfo();
+            Console.WriteLine("\nПосле сортировки по сахару:");
+            gift.SortBySugar();
             gift.ShowInfo();
         }
     }
