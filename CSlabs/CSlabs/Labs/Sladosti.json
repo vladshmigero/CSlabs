@@ -57,5 +57,12 @@
         "Weight": 100,
         "Sugar": 30,
         "Color": "Белый"
+    },
+    {
+        "Type": "Donut",
+        "Name": "Пончик",
+        "Weight": 80,
+        "Sugar": 35,
+        "Glaze": "Клубничная"
     }
 ]

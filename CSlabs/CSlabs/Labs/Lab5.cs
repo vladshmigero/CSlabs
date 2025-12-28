@@ -67,6 +67,21 @@ namespace CSlabs.Labs
                 return $"Название сладости: {Name}, Вес: {Weight}г, Содержание сахара: {Sugar}г, Цвет: {Color}.";
             }
         }
+        public class Donut : Sladost
+        {
+            public string Glaze { get; set; }
+
+            public Donut(string name, double weight, int sugar, string glaze) : base(name, weight, sugar)
+            {
+                Glaze = glaze;
+            }
+
+            public override string GetInfo()
+            {
+                return $"Название сладости: {Name}, Вес: {Weight}г, Сахар: {Sugar}г, Глазурь: {Glaze}.";
+            }
+        }
+
         public class Gift
         {
             private List<Sladost> sladosti = new List<Sladost>();
@@ -128,6 +143,9 @@ namespace CSlabs.Labs
                         case "Marshmallow":
                             Add(new Marshmallow(item.Name, item.Weight, item.Sugar, item.Color));
                             break;
+                        case "Donut":
+                            Add(new Donut(item.Name, item.Weight, item.Sugar, item.Glaze)); 
+                            break;
                     }
                 }
             }
@@ -143,6 +161,7 @@ namespace CSlabs.Labs
             public int CocoaProcent { get; set; }
             public bool WithNuts { get; set; }
             public string Color { get; set; }
+            public string Glaze { get; set; }
         }
 
         public class SugarComparer : IComparer<Sladost> 
